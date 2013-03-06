@@ -1,0 +1,3 @@
+[submodule "vendor/zopfli"]
+	path = vendor/zopfli
+	url = https://code.google.com/p/zopfli/
