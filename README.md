@@ -21,8 +21,15 @@ Or install it yourself as:
 ```ruby
 require 'zopfli'
 
-Zopfli.deflate gzipped_string
-# => ungzipped data
+Zopfli.deflate string
+# => compressed data
+
+require 'zlib'
+
+compressed_data = Zopfli.deflate string
+uncompressed_data = Zlib::Inflate.inflate compressed_data
+uncompressed_data == string
+# => true
 ```
 
 ## Contributing

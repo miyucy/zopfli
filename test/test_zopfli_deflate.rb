@@ -5,17 +5,40 @@ require "stringio"
 require "zlib"
 
 describe Zopfli do
-  it "should compatible to gzip" do
+  it "works fine" do
     fixture = fixtures("alice29.txt").read
 
-    sio = StringIO.new(Zopfli.deflate fixture)
+    Zopfli.deflate(fixture).must_equal(Zopfli.deflate(fixture, format: :zlib))
+  end
+
+  it "zlib format works" do
+    fixture = fixtures("alice29.txt").read
+
+    deflated = Zopfli.deflate fixture, format: :zlib
+
+    uncompressed = Zlib::Inflate.inflate deflated
+
+    uncompressed.must_equal fixture
+  end
+
+  it "gzip format works" do
+    fixture = fixtures("alice29.txt").read
+
+    gzipped = Zopfli.deflate fixture, format: :gzip
 
     uncompressed = nil
-    Zlib::GzipReader.wrap(sio) do |gz|
+    Zlib::GzipReader.wrap(StringIO.new gzipped) { |gz|
       uncompressed = gz.read
-    end
+    }
 
-    fixture.must_equal uncompressed
+    uncompressed.must_equal fixture
+  end
+
+  it "deflate format works" do
+    fixture = fixtures("alice29.txt").read
+
+    deflate = Zopfli.deflate fixture, format: :deflate
+    skip "How to test"
   end
 
   def fixtures(name)
