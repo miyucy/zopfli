@@ -9,7 +9,7 @@
 require "mkmf"
 
 dst = File.dirname File.expand_path __FILE__
-src = File.join dst, "..", "vendor", "zopfli"
+src = File.join dst, "..", "vendor", "zopfli", "src", "zopfli"
 
 %w(
 blocksplitter.c
