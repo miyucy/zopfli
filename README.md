@@ -1,6 +1,6 @@
 # Zopfli
 
-see https://code.google.com/p/zopfli/
+see https://github.com/google/zopfli
 
 ## Installation
 
