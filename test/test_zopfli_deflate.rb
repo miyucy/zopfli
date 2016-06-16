@@ -24,12 +24,9 @@ describe Zopfli do
   it "gzip format works" do
     fixture = fixtures("alice29.txt").read
 
-    gzipped = Zopfli.deflate fixture, format: :gzip
+    deflated = Zopfli.deflate fixture, format: :gzip
 
-    uncompressed = nil
-    Zlib::GzipReader.wrap(StringIO.new gzipped) { |gz|
-      uncompressed = gz.read
-    }
+    uncompressed = Zlib::GzipReader.wrap(StringIO.new(deflated), &:read)
 
     uncompressed.must_equal fixture
   end
@@ -37,11 +34,12 @@ describe Zopfli do
   it "deflate format works" do
     fixture = fixtures("alice29.txt").read
 
-    deflate = Zopfli.deflate fixture, format: :deflate
+    Zopfli.deflate fixture, format: :deflate
+
     skip "How to test"
   end
 
   def fixtures(name)
-    File.open(File.join File.dirname(__FILE__), "fixtures", name)
+    File.open(File.join(File.dirname(__FILE__), "fixtures", name))
   end
 end
