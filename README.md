@@ -30,6 +30,11 @@ compressed_data = Zopfli.deflate string
 uncompressed_data = Zlib::Inflate.inflate compressed_data
 uncompressed_data == string
 # => true
+
+Zlib.deflate(File.read('LICENSE.txt'), Zlib::BEST_COMPRESSION).bytesize
+# => 628
+Zopfli.deflate(File.read('LICENSE.txt')).bytesize
+# => 601
 ```
 
 ## Contributing
