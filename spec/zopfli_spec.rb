@@ -31,4 +31,38 @@ RSpec.describe Zopfli do
     deflated = Zopfli.deflate fixture, format: :deflate
     p fixture.bytesize, deflated.bytesize
   end
+
+  context 'benchmark' do
+    it 'seq' do
+      data = 10.times.map { fixture.dup }
+      deflates = nil
+      t = Benchmark.realtime { deflates = data.map { |datum| Zopfli.deflate datum } }
+      deflates.each { |deflate| expect(Zlib::Inflate.inflate(deflate)).to eq fixture }
+      puts t
+      # => 4.483513999963179
+    end
+
+    it 'thread' do
+      q = Queue.new
+      10.times { q.push fixture.dup }
+      10.times { q.push nil }
+      w = 10.times.map do
+        Thread.new do
+          deflates = []
+          loop do
+            datum = q.pop
+            break if datum.nil?
+            deflates << Zopfli.deflate(datum)
+          end
+          deflates
+        end
+      end
+      deflates = nil
+      t = Benchmark.realtime { deflates = w.map(&:value) }
+      deflates.flatten.each { |deflate| expect(Zlib::Inflate.inflate(deflate)).to eq fixture }
+      puts t
+      # => 2.6099140000296757
+      # => 0.9405940000433475 (w/o gvl)
+    end
+  end
 end
