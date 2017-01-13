@@ -28,6 +28,7 @@ lz77.c
 lz77.h
 squeeze.c
 squeeze.h
+symbols.h
 tree.c
 tree.h
 util.c
