@@ -1,0 +1,24 @@
+language: ruby
+sudo: false
+cache:
+  bundler: true
+  directories:
+  - "$HOME/.ccache"
+rvm:
+  - 2.2.0
+  - 2.3.3
+  - 2.4.0
+env:
+  global:
+    - PATH="/usr/lib/ccache:$PATH"
+before_install:
+- gem install bundler
+deploy:
+  provider: rubygems
+  api_key:
+    secure: Ix2H4oY1Ypo5mdYj9JTXufY/E7H/TWjAM54dtG2i/94yV8wMVINl+rhjnFso87LN6y0Tpt7rWy1OG1y3YPbwhBUPLbRXZ+xGjnsLA8/sUpEFODFk/QaYgOkCk2g3+xCgzzNvctd2u9fii/q9eIUts8BznegxtAYbat5a8dGvoVEkYAvHUX4lMRcEZVgMMpjT+xz3IGRe9rnW4umLd8P2mE6CEXAtrwFNSsjL1SVfKVOwwJ/UyiJfUnK6U/mDWdCDYWiPEE/CTz7PbrGGo4nAGoShLmkMUDsOamgECObT2rsNo42XzzrB4GAP+4PPQnias34BtJQLI9x2IEAUkM8vnKhSrtshp43S+ikU01W6rj4NMAvER4s9WNmRjsWgZQ/vEIHIwZXmdnkGvlYSiwRru+17YL2HCbrVp/YXi7X5HgBczuGOt3TZLB0xAKJG21qz+HdtP1nZTZe3EONDvWx9bM3XF2YjJ5gt3UNno8GsefTl71PFDubs1/LrVbkGgGwO6VTb4OgS2bEzntk17488BLTBo3l7bke5FTu8xQUbCawX2dqtOiukP45Ke8hRmgwWSMK+EH8YYcRcuZSbOXYJtGfpfC6nHtlArW+EjJ2Og+nWX68n7NFOIfGfCSX+V7cNgnKsqMjaesF+jEP+53CfVa2xnYxkZx7TgGrFyQEKr9s=
+  gem: zopfli
+  on:
+    tags: true
+    repo: miyucy/zopfli
+script: bundle exec rake && ./smoke.sh
