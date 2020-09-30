@@ -1,7 +1,7 @@
 #!/bin/bash
 gem list | grep zopfli && gem uninstall --force zopfli
 bundle exec rake clean build
-gem install --force --local --no-ri --no-rdoc "$(ls pkg/zopfli-*.gem)"
+gem install --force --local --no-document "$(ls pkg/zopfli-*.gem)"
 cat <<EOF | ruby
 require 'zopfli'
 require 'zlib'

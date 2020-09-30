@@ -1,4 +1,5 @@
 #include "ruby.h"
+#include "ruby/thread.h"
 #include "zopfli.h"
 
 #define CSTR2SYM(x)    ID2SYM(rb_intern(x))
