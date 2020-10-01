@@ -5,8 +5,6 @@
 #define CSTR2SYM(x)    ID2SYM(rb_intern(x))
 #define DEFAULT_FORMAT ZOPFLI_FORMAT_ZLIB
 
-static VALUE rb_mZopfli;
-
 static ZopfliFormat
 zopfli_deflate_parse_options(ZopfliOptions *options, VALUE opts)
 {
@@ -108,6 +106,6 @@ zopfli_deflate(int argc, VALUE *argv, VALUE self)
 void
 Init_zopfli()
 {
-    rb_mZopfli = rb_define_module("Zopfli");
+    VALUE rb_mZopfli = rb_define_module("Zopfli");
     rb_define_singleton_method(rb_mZopfli, "deflate", zopfli_deflate, -1);
 }
