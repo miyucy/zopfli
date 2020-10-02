@@ -12,7 +12,7 @@ env:
   global:
     - PATH="/usr/lib/ccache:$PATH"
 before_install:
-- gem install bundler
+  - gem install bundler -v '~> 2.1.4'
 deploy:
   provider: rubygems
   api_key:
