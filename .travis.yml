@@ -5,14 +5,13 @@ cache:
   directories:
   - "$HOME/.ccache"
 rvm:
-  - 2.2.0
   - 2.3.3
   - 2.4.0
 env:
   global:
     - PATH="/usr/lib/ccache:$PATH"
 before_install:
-  - travis_retry gem install bundler --no-document || travis_retry gem install bundler --no-document -v '< 2.0'
+  - travis_retry gem install bundler --no-document
 deploy:
   provider: rubygems
   api_key:
