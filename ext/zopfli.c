@@ -116,6 +116,9 @@ zopfli_deflate(int argc, VALUE *argv, VALUE self)
 void
 Init_zopfli()
 {
+#if HAVE_RB_EXT_RACTOR_SAFE
+    rb_ext_ractor_safe(true);
+#endif
     VALUE rb_mZopfli = rb_define_module("Zopfli");
     rb_define_singleton_method(rb_mZopfli, "deflate", zopfli_deflate, -1);
 }
