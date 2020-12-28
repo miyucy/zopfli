@@ -1,6 +1,10 @@
 #include "ruby.h"
 #include "ruby/thread.h"
+#ifdef HAVE_ZOPFLI_ZOPFLI_H
+#include "zopfli/zopfli.h"
+#else
 #include "zopfli.h"
+#endif
 
 #define CSTR2SYM(x)    ID2SYM(rb_intern(x))
 #define DEFAULT_FORMAT ZOPFLI_FORMAT_ZLIB

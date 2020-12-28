@@ -9,7 +9,7 @@
 require "mkmf"
 
 dir_config("zopfli")
-if have_header("zopfli.h") && have_library("zopfli", "ZopfliCompress")
+if have_header("zopfli/zopfli.h") && have_library("zopfli", "ZopfliCompress", "zopfli/zopfli.h")
   create_makefile "zopfli"
 else
   dst = File.dirname File.expand_path __FILE__
@@ -43,6 +43,5 @@ else
   ].each do |file|
     FileUtils.copy File.join(src, file), File.join(dst, file) if FileTest.exist? File.join(src, file)
   end
-
   create_makefile "zopfli"
 end
