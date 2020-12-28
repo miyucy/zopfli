@@ -1,6 +1,12 @@
 #include "ruby.h"
+#ifdef HAVE_RUBY_THREAD_H
 #include "ruby/thread.h"
+#endif
+#ifdef HAVE_ZOPFLI_ZOPFLI_H
+#include "zopfli/zopfli.h"
+#else
 #include "zopfli.h"
+#endif
 
 #define CSTR2SYM(x)    ID2SYM(rb_intern(x))
 #define DEFAULT_FORMAT ZOPFLI_FORMAT_ZLIB
@@ -94,7 +100,11 @@ zopfli_deflate(int argc, VALUE *argv, VALUE self)
     args.out = NULL;
     args.outsize = 0;
 
+#ifdef HAVE_RUBY_THREAD_H
     rb_thread_call_without_gvl(zopfli_deflate_no_gvl, (void *)&args, NULL, NULL);
+#else
+    zopfli_deflate_no_gvl((void *)&args);
+#endif
 
     out = rb_str_new((const char*)args.out, args.outsize);
 
@@ -106,6 +116,9 @@ zopfli_deflate(int argc, VALUE *argv, VALUE self)
 void
 Init_zopfli()
 {
+#if HAVE_RB_EXT_RACTOR_SAFE
+    rb_ext_ractor_safe(true);
+#endif
     VALUE rb_mZopfli = rb_define_module("Zopfli");
     rb_define_singleton_method(rb_mZopfli, "deflate", zopfli_deflate, -1);
 }

@@ -8,12 +8,15 @@ Gem::Specification.new do |spec|
   spec.version       = Zopfli::VERSION
   spec.authors       = ["miyucy"]
   spec.email         = ["fistfvck@gmail.com"]
-  spec.description   = %q{zopfli}
-  spec.summary       = %q{zopfli}
+  spec.description   = "zopfli"
+  spec.summary       = "zopfli"
   spec.homepage      = "http://github.com/miyucy/zopfli"
   spec.license       = "MIT"
 
-  spec.test_files    = `git ls-files -z -- spec`.split("\x0")
+  spec.metadata["homepage_uri"] = spec.homepage
+  spec.metadata["source_code_uri"] = spec.homepage
+
+  spec.test_files    = `git ls-files -z -- test`.split("\x0")
   spec.files         = `git ls-files -z`.split("\x0")
   spec.files        -= spec.test_files
   spec.files        -= ['vendor/zopfli']
@@ -23,8 +26,4 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
   spec.extensions    = ["ext/extconf.rb"]
-
-  spec.add_development_dependency "bundler"
-  spec.add_development_dependency "rake"
-  spec.add_development_dependency "rspec"
 end

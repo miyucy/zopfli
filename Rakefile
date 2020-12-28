@@ -1,5 +1,7 @@
+require "bundler/setup"
 require "bundler/gem_tasks"
-require "rspec/core/rake_task"
+require "rake/clean"
+require "rake/testtask"
 require "rbconfig"
 
 DLEXT = RbConfig::CONFIG["DLEXT"]
@@ -12,12 +14,16 @@ file "ext/zopfli.#{DLEXT}" => Dir.glob("ext/*{.rb,.c,.h}") do
   cp "ext/zopfli.#{DLEXT}", "lib"
 end
 
-task :clean do
-  files = Dir["ext/*"] - ["ext/extconf.rb", "ext/zopfli.c"]
-  files += ["ext/zopfli.#{DLEXT}", "lib/zopfli.#{DLEXT}"]
-  rm_rf(files) unless files.empty?
+Rake::TestTask.new(:test) do |t|
+  t.libs << "test"
+  t.test_files = FileList["test/**/*_test.rb"]
+  t.warning = true
+  t.verbose = true
 end
 
-RSpec::Core::RakeTask.new(:spec)
-task :spec => "ext/zopfli.#{DLEXT}"
-task :default => :spec
+CLEAN.include "ext/zopfli.#{DLEXT}", "lib/zopfli.#{DLEXT}"
+CLEAN.include "ext/*"
+CLEAN.exclude "ext/extconf.rb", "ext/zopfli.c"
+
+task :test => "ext/zopfli.#{DLEXT}"
+task :default => :test
