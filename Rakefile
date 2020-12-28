@@ -14,11 +14,9 @@ file "ext/zopfli.#{DLEXT}" => Dir.glob("ext/*{.rb,.c,.h}") do
   cp "ext/zopfli.#{DLEXT}", "lib"
 end
 
-task :clean do
-  files = Dir["ext/*"] - ["ext/extconf.rb", "ext/zopfli.c"]
-  files += ["ext/zopfli.#{DLEXT}", "lib/zopfli.#{DLEXT}"]
-  rm_rf(files) unless files.empty?
-end
+CLEAN.include "ext/zopfli.#{DLEXT}", "lib/zopfli.#{DLEXT}"
+CLEAN.include "ext/*"
+CLEAN.exclude "ext/extconf.rb", "ext/zopfli.c"
 
 RSpec::Core::RakeTask.new(:spec)
 task :spec => "ext/zopfli.#{DLEXT}"
