@@ -1,5 +1,7 @@
 #include "ruby.h"
+#ifdef HAVE_RUBY_THREAD_H
 #include "ruby/thread.h"
+#endif
 #ifdef HAVE_ZOPFLI_ZOPFLI_H
 #include "zopfli/zopfli.h"
 #else
@@ -98,7 +100,11 @@ zopfli_deflate(int argc, VALUE *argv, VALUE self)
     args.out = NULL;
     args.outsize = 0;
 
+#ifdef HAVE_RUBY_THREAD_H
     rb_thread_call_without_gvl(zopfli_deflate_no_gvl, (void *)&args, NULL, NULL);
+#else
+    zopfli_deflate_no_gvl((void *)&args);
+#endif
 
     out = rb_str_new((const char*)args.out, args.outsize);
 
