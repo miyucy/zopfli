@@ -24,7 +24,8 @@ jobs:
         gem install --no-document "$(ls pkg/zopfli-*.gem)"
         cat <<EOF | ruby
         require "zopfli"
-        if Zopfli.inflate(Zopfli.deflate(File.read("README.md"))) == File.read("README.md")
+        require "zlib"
+        if Zlib::Inflate.inflate(Zopfli.deflate(File.read("README.md"))) == File.read("README.md")
           puts "OK"
           exit 0
         else
